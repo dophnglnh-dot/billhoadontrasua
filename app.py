@@ -653,6 +653,7 @@ def chatbot_response(user_text):
         "🤖 Mình chưa hiểu câu hỏi này lắm 😭\n\n"
         "Bạn có thể hỏi mình như:\n"
         "• Quán có món gì?\n"
+        "• Quán có món nào là ngon nhất?\n"
         "• Cacao Latte bao nhiêu?\n"
         "• Có topping gì?\n"
         "• Size L thêm bao nhiêu?\n"
