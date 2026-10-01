@@ -1,6 +1,6 @@
 import streamlit as st
 from datetime import datetime
-
+st.image("Lin.png")
 st.set_page_config(
     page_title="Quán Trà Sữa Lin Lin",
     page_icon="🧋",
