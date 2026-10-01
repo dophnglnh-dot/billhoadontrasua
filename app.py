@@ -1,3 +1,4 @@
+```python
 import streamlit as st
 from datetime import datetime
 
@@ -5,13 +6,13 @@ from datetime import datetime
 # CẤU HÌNH APP
 # =========================
 st.set_page_config(
-    page_title="Tính Bill Trà Sữa",
+    page_title="Quán Trà Sữa Lin Lin",
     page_icon="🧋",
     layout="centered"
 )
 
-st.title("🧋 APP TÍNH BILL TRÀ SỮA")
-st.write("Quản lý món uống và xuất hóa đơn thanh toán")
+st.title("🧋 QUÁN TRÀ SỮA LIN LIN")
+st.write("Tính bill và xuất hóa đơn")
 
 # =========================
 # DỮ LIỆU MENU
@@ -45,7 +46,18 @@ if "cart" not in st.session_state:
     st.session_state.cart = []
 
 # =========================
-# NHẬP THÔNG TIN MÓN
+# THÔNG TIN KHÁCH HÀNG
+# =========================
+
+st.subheader("👤 Thông tin khách hàng")
+
+customer_name = st.text_input(
+    "Tên khách hàng",
+    placeholder="Nhập tên khách hàng..."
+)
+
+# =========================
+# CHỌN MÓN
 # =========================
 
 st.subheader("📝 Chọn món")
@@ -61,8 +73,8 @@ size = st.radio(
     horizontal=True
 )
 
-# Phụ thu size L
 size_price = 0
+
 if size == "L":
     size_price = 5000
 
@@ -86,7 +98,7 @@ quantity = st.number_input(
 )
 
 # =========================
-# TÍNH TIỀN MÓN
+# TÍNH TIỀN
 # =========================
 
 unit_price = menu[drink] + size_price + toppings[topping]
@@ -124,7 +136,12 @@ if st.button("➕ Thêm vào hóa đơn", use_container_width=True):
 if st.session_state.cart:
 
     st.divider()
-    st.subheader("🧾 Hóa đơn")
+    st.subheader("🧾 HÓA ĐƠN")
+
+    st.write(
+        f"👤 **Khách hàng:** "
+        f"{customer_name if customer_name else 'Khách lẻ'}"
+    )
 
     grand_total = 0
 
@@ -135,13 +152,13 @@ if st.session_state.cart:
         )
 
         st.write(
-            f"   Topping: {item['topping']} | "
+            f"Topping: {item['topping']} | "
             f"Đường: {item['sugar']} | "
             f"Số lượng: {item['quantity']}"
         )
 
         st.write(
-            f"   Đơn giá: {item['unit_price']:,} VNĐ | "
+            f"Đơn giá: {item['unit_price']:,} VNĐ | "
             f"Thành tiền: **{item['total']:,} VNĐ**"
         )
 
@@ -157,11 +174,11 @@ if st.session_state.cart:
         f"💵 TỔNG THANH TOÁN: {grand_total:,} VNĐ"
     )
 
-    # =========================
-    # NÚT XÓA HÓA ĐƠN
-    # =========================
-
     col1, col2 = st.columns(2)
+
+    # =========================
+    # XÓA HÓA ĐƠN
+    # =========================
 
     with col1:
         if st.button("🗑️ Xóa hóa đơn", use_container_width=True):
@@ -169,7 +186,7 @@ if st.session_state.cart:
             st.rerun()
 
     # =========================
-    # TẠO FILE HÓA ĐƠN
+    # THANH TOÁN
     # =========================
 
     with col2:
@@ -180,14 +197,19 @@ if st.session_state.cart:
             invoice_code = now.strftime("%Y%m%d%H%M%S")
 
             invoice = ""
+
             invoice += "====================================\n"
-            invoice += "       HÓA ĐƠN QUÁN TRÀ SỮA\n"
+            invoice += "       QUÁN TRÀ SỮA LIN LIN\n"
             invoice += "====================================\n"
             invoice += f"Mã hóa đơn: {invoice_code}\n"
             invoice += f"Thời gian: {now.strftime('%d/%m/%Y %H:%M:%S')}\n"
+            invoice += f"Khách hàng: {customer_name if customer_name else 'Khách lẻ'}\n"
             invoice += "------------------------------------\n"
 
-            for i, item in enumerate(st.session_state.cart, start=1):
+            for i, item in enumerate(
+                st.session_state.cart,
+                start=1
+            ):
 
                 invoice += f"{i}. {item['drink']}\n"
                 invoice += f"   Size: {item['size']}\n"
@@ -215,3 +237,4 @@ if st.session_state.cart:
 
 else:
     st.warning("🛒 Chưa có món nào trong hóa đơn.")
+```
